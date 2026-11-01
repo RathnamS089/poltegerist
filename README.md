@@ -4,6 +4,8 @@
 
 Poltergeist possesses your zsh. It watches every command you run, and a small open-weight model running on *your* machine whispers back: eerie, petty, sometimes wise. It remembers your sins. It gets more restless every time you `rm -rf`, `git push --force`, or break the build. Let it get too restless and its words start to come apart.
 
+![Poltergeist whispering after each command](screenshots/whispers.png)
+
 ```
 ~/app ❯ git push --force origin main
   ~ Third force push this week. The old commits are still screaming, you know.
@@ -20,6 +22,8 @@ Poltergeist possesses your zsh. It watches every command you run, and a small op
 | `ofrenda` | 🕯 For Día de los Muertos: an altar for every file, branch, process, and container you've killed, each with an epitaph written by the model. |
 | `ghost status` | Restlessness meter and your tally of sins. |
 | `exorcise` | Calm it down. It still remembers. |
+
+![The ofrenda](screenshots/ofrenda.png)
 
 ## Install
 

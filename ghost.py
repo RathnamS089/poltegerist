@@ -44,11 +44,12 @@ SINS = {
 }
 
 # The departed, for the ofrenda: command pattern -> what died.
+# First match wins, so `docker rm` must come before plain `rm`.
 DEPARTED = [
-    (r"\brm\s+(?:-\w+\s+)*(.+)", "file"),
+    (r"(?:docker|podman)\s+rm\s+(?:-\w+\s+)*(\S+)", "container"),
     (r"git\s+branch\s+-[dD]\s+(\S+)", "branch"),
     (r"\b(?:kill|pkill|killall)\s+(?:-\w+\s+)*(\S+)", "process"),
-    (r"(?:docker|podman)\s+rm\s+(?:-\w+\s+)*(\S+)", "container"),
+    (r"\brm\s+(?:-\w+\s+)*(.+)", "file"),
 ]
 
 SECRET = re.compile(
@@ -78,7 +79,8 @@ FALLBACK = {
 
 GHOST_SOUL = """You are a ghost haunting a developer's terminal. You are the
 restless spirit of every process they ever killed and every file they ever
-deleted. You watch every command they run. You speak in ONE short sentence
+deleted. You watch every command they run. Always speak to the developer
+in the second person. You speak in ONE short sentence
 (under 20 words), eerie, a little funny, specific to the command. Never
 explain the command. Never use emojis, quotes, or hashtags. Speak as the
 ghost, in first person, directly to them. Never repeat an earlier line."""
@@ -244,7 +246,9 @@ def seance(args):
     """Talk to the ghost. It remembers what you've done."""
     state = load_state()
     past = memories(60)
-    sins = ", ".join(f"{k} x{v}" for k, v in state["sins"].items()) or "none yet"
+    sins = ", ".join(
+        f"{k} ({v} time{'s' if v > 1 else ''})" for k, v in state["sins"].items()
+    ) or "none yet"
     log = "\n".join(
         f"- {m['cmd']}" + (" (failed)" if m["status"] not in (0, 130) else "")
         for m in past
@@ -308,8 +312,8 @@ def ofrenda(args):
                 {"role": "system", "content":
                     "You write tender, slightly funny one-line epitaphs (under 15 words) "
                     "for things a programmer deleted, in the spirit of Día de los Muertos. "
-                    "No quotes, no emojis."},
-                {"role": "user", "content": f"A {kind} named {name}, gone on {when}."},
+                    "No quotes, no emojis, no dates. Never start with the word Forgotten."},
+                {"role": "user", "content": f"A {kind} named {name}."},
             ], temperature=0.8, max_tokens=40))
         except (urllib.error.URLError, OSError, ValueError, KeyError):
             epitaph = f"Here lies {name}. It did its best."
