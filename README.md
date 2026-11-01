@@ -27,7 +27,7 @@ Poltergeist possesses your zsh. It watches every command you run, and a small op
 brew install ollama          # or see ollama.com
 ollama serve &               # or open the Ollama app
 ollama pull llama3.2:1b      # ~1.3 GB, one time
-git clone <this repo> ~/poltergeist
+git clone https://github.com/RathnamS089/poltegerist.git ~/poltergeist
 echo 'source ~/poltergeist/poltergeist.zsh' >> ~/.zshrc
 exec zsh
 ```

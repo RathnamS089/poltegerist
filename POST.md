@@ -23,7 +23,7 @@ It also has two rituals:
 
 ## Code
 
-<!-- TODO: {% github <user>/poltergeist %} -->
+{% github RathnamS089/poltegerist %}
 
 ## How I Built It
 
